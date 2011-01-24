@@ -1,0 +1,40 @@
+ConcernedWith
+=============
+
+Simple way to separate model and controller concerns into separate files. Code is from Rick Olson's altered_beast project.
+
+
+Example
+=======
+
+# app/models/user.rb
+class User < ActiveRecord::Base
+  concerned_with :validations, :authentication
+end
+
+# app/models/user/validations.rb
+class User < ActiveRecord::Base
+  validates_presence_of :name
+end
+
+#app/models/user/authentication.rb
+class User < ActiveRecord::Base
+  def self.authenticate(name, password)
+    find_by_name_and_password(name, password)
+  end
+end
+
+#app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  concerned_with :authentication
+end
+
+#app/controllers/application/authentication.rb
+class ApplicationController < ActionController::Base
+  def logged_in?
+    false
+  end
+end
+
+
+Copyright (c) 2008 Jake Howerton, 2009 Mateusz Drożdżynski, released under the MIT license
