@@ -36,5 +36,27 @@ class ApplicationController < ActionController::Base
   end
 end
 
+Follow this one
+=================================
 
-Copyright (c) 2008 Jake Howerton, 2009 Mateusz Drożdżynski, released under the MIT license
+Download and paste in plugin
+
+#app/controllers/application_controller.rb
+concerned_with :rescues
+
+#app/controllers/application/rescues.rb
+class ApplicationController < ActionController::Base
+  rescue_from   ActionController::RoutingError , :with => :route_not_found
+  rescue_from  ActiveRecord::RecordNotFound, :with => :record_not_found
+
+  protected
+  def route_not_found
+    redirect_to root_path
+  end
+
+  def record_not_found
+    redirect_to root_path
+  end
+
+end
+
